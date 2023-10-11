@@ -11,3 +11,27 @@ https://github.com/patrickmn/go-cache#go-cache
 https://pkg.go.dev/github.com/patrickmn/go-cache#section-readme
 
 https://go.dev/blog/gob
+
+Steps
+#+begin_example
+// steps to serialize
+
+Create new cache
+Create object to cache
+Set cache key to object
+Serialize cache
+
+// steps to unserialze
+
+var cacheMap map[string]gocache.Item
+if err := decoder.Decode(&cacheMap); err != nil {
+    slog.Debug("decode", "error", err.Error())
+    return 1
+}
+
+cache2 := gocache.NewFrom(1*time.Minute, 2*time.Minute, cacheMap)
+
+// verify we can fetch the object back from cache key
+
+reply, future, found := cache2.GetWithExpiration("foo")
+#+end_example
