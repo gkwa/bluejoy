@@ -34,50 +34,22 @@ func Main() int {
 		},
 	}
 	cache.Set("foo", cacheItem, 2*time.Minute)
+	slog.Debug("check cache", "count", cache.ItemCount())
 
 	// gob stuff to save cache:
-	cacheSnapshot := cache.Items()
 	file2, _ := os.Create(path)
 	encoder := gob.NewEncoder(file2)
 
 	// save cache to file:
-	encoder.Encode(cacheSnapshot)
+	gob.Register(PushbulletHTTReply{})
+	err := encoder.Encode(cache.Items())
+	if err != nil {
+		slog.Error("encode", "error", err.Error())
+	}
 	file2.Close()
 	slog.Debug("cache", "exists", checkFileExists(path))
 
-	// pretend to restart app and load cache from file3:
-	file3, err := os.Open(path)
-	if err != nil {
-		slog.Debug("file access", "error", err.Error())
-		return 1
-	}
-	defer file3.Close()
-
-	decoder := gob.NewDecoder(file3)
-
-	// newCache2 := make(map[string]gocache.Item, 1)
-	// newCache2 := make(map[string]PushbulletHTTReply, 1)
-	var q gocache.Cache
-	if err := decoder.Decode(&q); err != nil {
-		slog.Debug("decode", "error", err.Error())
-		return 1
-	}
-
 	return 0
-	// slog.Debug("cache", "itemCount", newCache2.ItemCount())
-
-	// r, future, found := newCache2.GetWithExpiration("foo")
-
-	// if found {
-	// 	slog.Debug("mymessage", "result", r.(PushbulletHTTReply))
-	// 	slog.Debug("duration", "n", time.Until(future).Truncate(time.Second))
-	// }
-
-	// foo, found := newCache2.Get("foo")
-	// if found {
-	// 	slog.Debug("debug", "foo", foo.(PushbulletHTTReply))
-	// }
-	// return 0
 }
 
 func persistReply(reply PushbulletHTTReply, path string) error {
