@@ -65,8 +65,8 @@ func Main() int {
 		return 1
 	}
 
-	z:= gocache.NewFrom(1*time.Minute, 2*time.Minute, newCache2)
-	slog.Debug("z","count",z.ItemCount())
+	z := gocache.NewFrom(1*time.Minute, 2*time.Minute, newCache2)
+	slog.Debug("z", "count", z.ItemCount())
 
 	return 0
 }
