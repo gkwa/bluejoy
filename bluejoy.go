@@ -49,6 +49,25 @@ func Main() int {
 	file2.Close()
 	slog.Debug("cache", "exists", checkFileExists(path))
 
+	// pretend to restart app and load cache from file3:
+	file3, err := os.Open(path)
+	if err != nil {
+		slog.Debug("file access", "error", err.Error())
+		return 1
+	}
+	defer file3.Close()
+
+	var newCache2 map[string]gocache.Item
+	decoder := gob.NewDecoder(file3)
+
+	if err := decoder.Decode(&newCache2); err != nil {
+		slog.Debug("decode", "error", err.Error())
+		return 1
+	}
+
+	z:= gocache.NewFrom(1*time.Minute, 2*time.Minute, newCache2)
+	slog.Debug("z","count",z.ItemCount())
+
 	return 0
 }
 
