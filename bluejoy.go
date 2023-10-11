@@ -17,14 +17,15 @@ import (
 var configRelPath = "bluejoy/keys.db"
 
 func Main() int {
-	cache := gocache.New(1*time.Minute, 2*time.Minute)
-
 	path, _ := genCachePath(configRelPath)
 	slog.Debug("cache", "path", path)
 
-	checkFileExists(path)
+	cache := gocache.New(3*time.Minute, 4*time.Minute)
+	slog.Debug("cache", "exists", checkFileExists(path))
+
+	// ensure we're starting clean:
 	os.Remove(path)
-	checkFileExists(path)
+	slog.Debug("cache", "exists", checkFileExists(path))
 
 	cacheItem := PushbulletHTTReply{
 		Pushes: []Push{
@@ -32,17 +33,17 @@ func Main() int {
 			{URL: "https://go.dev/blog/gob"},
 		},
 	}
-	cache.Set("foo", cacheItem, gocache.DefaultExpiration)
+	cache.Set("foo", cacheItem, 2*time.Minute)
 
 	// gob stuff to save cache:
 	cacheSnapshot := cache.Items()
 	file2, _ := os.Create(path)
-	defer file2.Close()
 	encoder := gob.NewEncoder(file2)
-	encoder.Encode(cacheSnapshot)
 
-	// ensure cache has been saved:
-	checkFileExists(path)
+	// save cache to file:
+	encoder.Encode(cacheSnapshot)
+	file2.Close()
+	slog.Debug("cache", "exists", checkFileExists(path))
 
 	// pretend to restart app and load cache from file3:
 	file3, err := os.Open(path)
@@ -52,28 +53,33 @@ func Main() int {
 	}
 	defer file3.Close()
 
-	var newCache2 gocache.Cache
 	decoder := gob.NewDecoder(file3)
 
+	// newCache2 := make(map[string]gocache.Item, 1)
+	// newCache2 := make(map[string]PushbulletHTTReply, 1)
+	// var q map[string]PushbulletHTTReply
+	var q map[string]gocache.Item
+	newCache2 := gocache.NewFrom(2*time.Minute, 3*time.Minute, q)
 	if err := decoder.Decode(&newCache2); err != nil {
 		slog.Debug("decode", "error", err.Error())
 		return 1
 	}
 
-	slog.Debug("cache", "itemCount", newCache2.ItemCount())
-
-	r, future, found := newCache2.GetWithExpiration("foo")
-
-	if found {
-		slog.Debug("mymessage", "result", r.(PushbulletHTTReply))
-		slog.Debug("duration", "n", time.Until(future).Truncate(time.Second))
-	}
-
-	foo, found := newCache2.Get("foo")
-	if found {
-		slog.Debug("debug", "foo", foo.(PushbulletHTTReply))
-	}
 	return 0
+	// slog.Debug("cache", "itemCount", newCache2.ItemCount())
+
+	// r, future, found := newCache2.GetWithExpiration("foo")
+
+	// if found {
+	// 	slog.Debug("mymessage", "result", r.(PushbulletHTTReply))
+	// 	slog.Debug("duration", "n", time.Until(future).Truncate(time.Second))
+	// }
+
+	// foo, found := newCache2.Get("foo")
+	// if found {
+	// 	slog.Debug("debug", "foo", foo.(PushbulletHTTReply))
+	// }
+	// return 0
 }
 
 func persistReply(reply PushbulletHTTReply, path string) error {
