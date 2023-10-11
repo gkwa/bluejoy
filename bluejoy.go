@@ -66,7 +66,11 @@ func Main() int {
 	}
 
 	z := gocache.NewFrom(1*time.Minute, 2*time.Minute, newCache2)
-	slog.Debug("z", "count", z.ItemCount())
+	reply, future, found := z.GetWithExpiration("foo")
+
+	expires := time.Until(future).Truncate(time.Second)
+	e := reply.(PushbulletHTTReply)
+	slog.Debug("z", "found", found, "future", future, "expires", expires, "reply", e.Pushes[0].URL)
 
 	return 0
 }
