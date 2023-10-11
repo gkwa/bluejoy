@@ -57,7 +57,7 @@ func Main() int {
 
 	// newCache2 := make(map[string]gocache.Item, 1)
 	// newCache2 := make(map[string]PushbulletHTTReply, 1)
-	var q map[string]PushbulletHTTReply
+	var q map[string]gocache.Item
 	newCache2 := gocache.NewFrom(2*time.Minute, 3*time.Minute, q)
 	if err := decoder.Decode(&newCache2); err != nil {
 		slog.Debug("decode", "error", err.Error())
