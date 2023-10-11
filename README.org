@@ -9,3 +9,5 @@ Now I see how go-cache uses gob.
 https://github.com/patrickmn/go-cache#go-cache
 
 https://pkg.go.dev/github.com/patrickmn/go-cache#section-readme
+
+https://go.dev/blog/gob

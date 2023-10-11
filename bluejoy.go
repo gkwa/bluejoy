@@ -36,26 +36,40 @@ func Main() int {
 
 	// gob stuff to save cache:
 	cacheSnapshot := cache.Items()
-	file, _ := os.Create(path)
-	defer file.Close()
-	encoder := gob.NewEncoder(file)
+	file2, _ := os.Create(path)
+	defer file2.Close()
+	encoder := gob.NewEncoder(file2)
 	encoder.Encode(cacheSnapshot)
 
 	// ensure cache has been saved:
 	checkFileExists(path)
 
-	// pretend to restart app and load cache from file:
-	newCache := gocache.NewFrom(1*time.Minute, 2*time.Minute, cacheSnapshot)
-	slog.Debug("cache", "itemCount", newCache.ItemCount())
+	// pretend to restart app and load cache from file3:
+	file3, err := os.Open(path)
+	if err != nil {
+		slog.Debug("file access", "error", err.Error())
+		return 1
+	}
+	defer file3.Close()
 
-	r, future, found := newCache.GetWithExpiration("foo")
+	var newCache2 gocache.Cache
+	decoder := gob.NewDecoder(file3)
+
+	if err := decoder.Decode(&newCache2); err != nil {
+		slog.Debug("decode", "error", err.Error())
+		return 1
+	}
+
+	slog.Debug("cache", "itemCount", newCache2.ItemCount())
+
+	r, future, found := newCache2.GetWithExpiration("foo")
 
 	if found {
 		slog.Debug("mymessage", "result", r.(PushbulletHTTReply))
 		slog.Debug("duration", "n", time.Until(future).Truncate(time.Second))
 	}
 
-	foo, found := newCache.Get("foo")
+	foo, found := newCache2.Get("foo")
 	if found {
 		slog.Debug("debug", "foo", foo.(PushbulletHTTReply))
 	}
