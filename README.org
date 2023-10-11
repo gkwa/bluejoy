@@ -1,11 +1,11 @@
-* My Project
+Learn how to use go-cache properly.
 
-This is a description of my project.
+go-cache says loadfile is dprecated so I need to use gob, but what the heck is gob?
 
-** Installation
+fiddle with gob for a bit...
 
-To install my project, run this command: go install myproject
+Now I see how go-cache uses gob.
 
-** Usage
+https://github.com/patrickmn/go-cache#go-cache
 
-To use my project, run this command: myproject
+https://pkg.go.dev/github.com/patrickmn/go-cache#section-readme
