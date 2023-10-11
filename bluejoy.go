@@ -2,12 +2,9 @@ package bluejoy
 
 import (
 	"encoding/gob"
-	"fmt"
 	"log/slog"
 	"os"
-	"os/user"
 	"path/filepath"
-	"syscall"
 	"time"
 
 	"github.com/adrg/xdg"
@@ -70,40 +67,9 @@ func Main() int {
 
 	expires := time.Until(future).Truncate(time.Second)
 	e := reply.(PushbulletHTTReply)
-	slog.Debug("z", "found", found, "future", future, "expires", expires, "reply", e.Pushes[0].URL)
+	slog.Debug("z", "found", found, "now", time.Now(), "future", future, "expires", expires, "reply", e.Pushes[0].URL)
 
 	return 0
-}
-
-func persistReply(reply PushbulletHTTReply, path string) error {
-	file, _ := os.Create(path)
-	defer file.Close()
-	encoder := gob.NewEncoder(file)
-	encoder.Encode(reply)
-
-	return nil
-}
-
-func loadCache(path string) error {
-	file, err := os.Open(path)
-	if err != nil {
-		slog.Debug("file access", "error", err.Error())
-		return err
-	}
-	defer file.Close()
-
-	decoder := gob.NewDecoder(file)
-
-	var reply PushbulletHTTReply
-
-	if err := decoder.Decode(&reply); err != nil {
-		slog.Debug("decode", "error", err.Error())
-		return err
-	}
-
-	slog.Debug("user", "email", reply.Pushes[0].SenderEmail)
-
-	return nil
 }
 
 func genCachePath(configRelPath string) (string, error) {
@@ -123,23 +89,4 @@ func genCachePath(configRelPath string) (string, error) {
 
 	slog.Debug("cache", "path", configFilePath)
 	return configFilePath, nil
-}
-
-func logPathStats(filePath string) {
-	fileInfo, err := os.Stat(filePath)
-	if err != nil {
-		slog.Error("stat", "path", filePath, "error", err.Error())
-		return
-	}
-
-	fileUID := fileInfo.Sys().(*syscall.Stat_t).Uid
-
-	// Use the user package to get the user information
-	u, err := user.LookupId(fmt.Sprintf("%d", fileUID))
-	if err != nil {
-		slog.Error("user info", "user", u, "error", err.Error())
-		return
-	}
-
-	slog.Debug("owner", "path", filePath, "user", u.Username)
 }
