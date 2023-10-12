@@ -9,10 +9,16 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5CcY=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
+github.com/taylormonacelli/forestfish v0.0.0-20231012042928-c56929d246d3 h1:FrQqY9Dicz7WYJlOdi6vS9gDUBnCP3+vt1FjEytpwT8=
+github.com/taylormonacelli/forestfish v0.0.0-20231012042928-c56929d246d3/go.mod h1:/r1GlaTaaRRtK+SzKz7pjRKmhl/9h1aiRNr2yJOoVm8=
+github.com/taylormonacelli/forestfish v0.0.1 h1:61OaFnD5Fi8b3Zk8lgTzoCdbVIoXhowviINMjVj4N8s=
+github.com/taylormonacelli/forestfish v0.0.1/go.mod h1:/r1GlaTaaRRtK+SzKz7pjRKmhl/9h1aiRNr2yJOoVm8=
 github.com/taylormonacelli/goldbug v0.0.2 h1:l7p2NMGUK3gek0Y73nJSd0bQ7qx2lAJQHB8DWYlymQE=
 github.com/taylormonacelli/goldbug v0.0.2/go.mod h1:HN8Mpu5DRSZSG6ZOGVZN06Suhnx2paUhXVyekhniaDI=
 github.com/taylormonacelli/somespider v0.0.0-20231012010152-8daf397c498e h1:n7Uh+AP0G1o05ycFd8A6CJHvTwv2Z2P89E/xqMWFsAE=
 github.com/taylormonacelli/somespider v0.0.0-20231012010152-8daf397c498e/go.mod h1:lZSB/IUt7gzn5KIdfO+xRyLX3JhfvRn/vxTMWMSkcOM=
+github.com/taylormonacelli/somespider v0.0.0-20231012013812-aa3606dd52d2 h1:zW1WUtSTqn/3Hf2cLQUYVQInIvkDTg4iEQfxx1Kfirk=
+github.com/taylormonacelli/somespider v0.0.0-20231012013812-aa3606dd52d2/go.mod h1:lZSB/IUt7gzn5KIdfO+xRyLX3JhfvRn/vxTMWMSkcOM=
 golang.org/x/sys v0.0.0-20211025201205-69cdffdb9359/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.13.0 h1:Af8nKPmuFypiUBjVoU9V20FiaFXOcuZI21p0ycVYYGE=
 golang.org/x/sys v0.13.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

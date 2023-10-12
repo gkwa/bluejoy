@@ -4,8 +4,9 @@ go 1.21.1
 
 require (
 	github.com/patrickmn/go-cache v2.1.0+incompatible
+	github.com/taylormonacelli/forestfish v0.0.1
 	github.com/taylormonacelli/goldbug v0.0.2
-	github.com/taylormonacelli/somespider v0.0.0-20231012010152-8daf397c498e
+	github.com/taylormonacelli/somespider v0.0.0-20231012013812-aa3606dd52d2
 )
 
 require (

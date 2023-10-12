@@ -7,21 +7,22 @@ import (
 	"time"
 
 	gocache "github.com/patrickmn/go-cache"
+	ffile "github.com/taylormonacelli/forestfish/file"
 	"github.com/taylormonacelli/somespider"
 )
 
 func Main() int {
-	path, _ := somespider.GenPath("bluejoy/keys.db")
-	slog.Debug("cache", "path", path)
+	dataPath, _ := somespider.GenPath("bluejoy/data.db")
+	slog.Debug("cache", "path", dataPath)
 
 	cache1 := gocache.New(3*time.Minute, 4*time.Minute)
-	slog.Debug("cache", "exists", checkFileExists(path))
+	slog.Debug("cache", "exists", ffile.FileExists(dataPath))
 
 	slog.Debug("cache", "action", "deleting cache file")
 
 	// ensure we're starting clean:
-	os.Remove(path)
-	slog.Debug("cache", "exists", checkFileExists(path))
+	os.Remove(dataPath)
+	slog.Debug("cache", "exists", ffile.FileExists(dataPath))
 
 	cacheItem := PushbulletHTTReply{
 		Pushes: []Push{
@@ -29,7 +30,7 @@ func Main() int {
 			{URL: "https://go.dev/blog/gob"},
 		},
 	}
-	cache1.Set("foo", cacheItem, 2*time.Minute)
+	cache1.Set("foo", cacheItem, gocache.DefaultExpiration)
 	slog.Debug("check in memory cache items", "count", cache1.ItemCount())
 
 	cacheSnapshot := cache1.Items()
@@ -37,17 +38,17 @@ func Main() int {
 	gob.Register(PushbulletHTTReply{})
 
 	// serialize using gob:
-	file, _ := os.Create(path)
+	file, _ := os.Create(dataPath)
 	encoder := gob.NewEncoder(file)
 	err := encoder.Encode(cacheSnapshot)
 	if err != nil {
 		slog.Error("encode", "error", err.Error())
 	}
 	defer file.Close()
-	slog.Debug("checking existance of file cache", "exists", checkFileExists(path))
+	slog.Debug("checking existance of file cache", "exists", ffile.FileExists(dataPath))
 
 	// unmarshal cache from file
-	file2, err := os.Open(path)
+	file2, err := os.Open(dataPath)
 	if err != nil {
 		slog.Debug("file access", "error", err.Error())
 		return 1
