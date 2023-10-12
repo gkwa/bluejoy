@@ -11,8 +11,8 @@ github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5Cc
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/taylormonacelli/goldbug v0.0.2 h1:l7p2NMGUK3gek0Y73nJSd0bQ7qx2lAJQHB8DWYlymQE=
 github.com/taylormonacelli/goldbug v0.0.2/go.mod h1:HN8Mpu5DRSZSG6ZOGVZN06Suhnx2paUhXVyekhniaDI=
-golang.org/x/exp v0.0.0-20231006140011-7918f672742d h1:jtJma62tbqLibJ5sFQz8bKtEM8rJBtfilJ2qTU199MI=
-golang.org/x/exp v0.0.0-20231006140011-7918f672742d/go.mod h1:ldy0pHrwJyGW56pPQzzkH36rKxoZW1tw7ZJpeKx+hdo=
+github.com/taylormonacelli/somespider v0.0.0-20231012010152-8daf397c498e h1:n7Uh+AP0G1o05ycFd8A6CJHvTwv2Z2P89E/xqMWFsAE=
+github.com/taylormonacelli/somespider v0.0.0-20231012010152-8daf397c498e/go.mod h1:lZSB/IUt7gzn5KIdfO+xRyLX3JhfvRn/vxTMWMSkcOM=
 golang.org/x/sys v0.0.0-20211025201205-69cdffdb9359/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.13.0 h1:Af8nKPmuFypiUBjVoU9V20FiaFXOcuZI21p0ycVYYGE=
 golang.org/x/sys v0.13.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

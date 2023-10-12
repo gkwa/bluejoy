@@ -7,11 +7,11 @@ import (
 	"time"
 
 	gocache "github.com/patrickmn/go-cache"
-	"github.com/taylormonacelli/bluejoy/xdgapppath"
+	"github.com/taylormonacelli/somespider"
 )
 
 func Main() int {
-	path, _ := xdgapppath.GenPath("bluejoy/keys.db")
+	path, _ := somespider.GenPath("bluejoy/keys.db")
 	slog.Debug("cache", "path", path)
 
 	cache1 := gocache.New(3*time.Minute, 4*time.Minute)
