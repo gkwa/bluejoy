@@ -24,7 +24,7 @@ Serialize cache
 // steps to unserialze
 
 var cacheMap map[string]gocache.Item
-if err := decoder.Decode(&cacheMap); err != nil {
+if err := gobDecoder.Decode(&cacheMap); err != nil {
     slog.Debug("decode", "error", err.Error())
     return 1
 }
