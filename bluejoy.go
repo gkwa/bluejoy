@@ -4,25 +4,32 @@ import (
 	"encoding/gob"
 	"log/slog"
 	"os"
+	"path/filepath"
 	"time"
 
 	gocache "github.com/patrickmn/go-cache"
-	ffile "github.com/taylormonacelli/forestfish/file"
+	mymazda "github.com/taylormonacelli/forestfish/mymazda"
 	"github.com/taylormonacelli/somespider"
 )
 
+var relCachePath string
+
+func init() {
+	relCachePath = filepath.Join("bluejoy", "data.db")
+}
+
 func Main() int {
-	dataPath, _ := somespider.GenPath("bluejoy/data.db")
+	dataPath, _ := somespider.GenPath(relCachePath)
 	slog.Debug("cache", "path", dataPath)
 
 	cache1 := gocache.New(3*time.Minute, 4*time.Minute)
-	slog.Debug("cache", "exists", ffile.FileExists(dataPath))
+	slog.Debug("cache", "exists", mymazda.FileExists(dataPath))
 
 	slog.Debug("cache", "action", "deleting cache file")
 
 	// ensure we're starting clean:
 	os.Remove(dataPath)
-	slog.Debug("cache", "exists", ffile.FileExists(dataPath))
+	slog.Debug("cache", "exists", mymazda.FileExists(dataPath))
 
 	cacheItem := PushbulletHTTReply{
 		Pushes: []Push{
@@ -45,7 +52,7 @@ func Main() int {
 		slog.Error("encode", "error", err.Error())
 	}
 	defer file.Close()
-	slog.Debug("checking existance of file cache", "exists", ffile.FileExists(dataPath))
+	slog.Debug("checking existance of file cache", "exists", mymazda.FileExists(dataPath))
 
 	// unmarshal cache from file
 	file2, err := os.Open(dataPath)
