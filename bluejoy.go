@@ -27,10 +27,11 @@ func Main() int {
 
 	slog.Debug("cache", "action", "deleting cache file")
 
-	// ensure we're starting clean:
+	// ensure we're starting clean for testing/iterating:
 	os.Remove(dataPath)
 	slog.Debug("cache", "exists", mymazda.FileExists(dataPath))
 
+	// generate domain item we'd like to cache and cache it:
 	cacheItem := PushbulletHTTReply{
 		Pushes: []Push{
 			{URL: "https://news.ycombinator.com/"},
@@ -40,6 +41,7 @@ func Main() int {
 	cache1.Set("foo", cacheItem, gocache.DefaultExpiration)
 	slog.Debug("check in memory cache items", "count", cache1.ItemCount())
 
+	// prepare to persist cache to disk:
 	cacheSnapshot := cache1.Items()
 
 	gob.Register(PushbulletHTTReply{})
@@ -54,7 +56,7 @@ func Main() int {
 	defer file.Close()
 	slog.Debug("checking existance of file cache", "exists", mymazda.FileExists(dataPath))
 
-	// unmarshal cache from file
+	// unmarshal cache from file:
 	file2, err := os.Open(dataPath)
 	if err != nil {
 		slog.Debug("file access", "error", err.Error())
