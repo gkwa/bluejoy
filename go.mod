@@ -6,10 +6,10 @@ require (
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/taylormonacelli/forestfish v0.0.10
 	github.com/taylormonacelli/goldbug v0.0.2
-	github.com/taylormonacelli/somespider v0.0.0-20240127160314-1cf65a8b592b
+	github.com/taylormonacelli/somespider v0.0.0-20241023183358-4b44d57a63a8
 )
 
 require (
-	github.com/adrg/xdg v0.4.0 // indirect
-	golang.org/x/sys v0.13.0 // indirect
+	github.com/adrg/xdg v0.5.0 // indirect
+	golang.org/x/sys v0.22.0 // indirect
 )
